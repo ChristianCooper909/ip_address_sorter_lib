@@ -38,3 +38,10 @@ comes first; the longer prefix (more specific) comes after.
 Host bits in a strict CIDR form are rejected. `10.0.0.1/8` raises
 `ValueError`; the canonical network form `10.0.0.0/8` is expected. Any string
 that is neither a valid address nor a valid network raises `ValueError`.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
